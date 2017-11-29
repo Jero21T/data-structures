@@ -1,22 +1,30 @@
 var Queue = function() {
   var someInstance = {};
-
-  // Use an object with numeric keys to store values
   var storage = {};
 
   // Implement the methods below
 
   someInstance.enqueue = function(value) {
     storage[Object.keys(storage).length] = value;
-    console.log(storage)
+    //console.log(storage)
   };
 
   someInstance.dequeue = function() {
-    var target =  storage[Object.keys(storage)[0]]
-    delete storage[Object.keys(storage)[0]]
-    
-    console.log(target)
-    return target;
+    var target = Object.keys(storage)[0];
+    var delTar = storage[target];
+    delete (storage[target]);
+
+      var updateIndicies = function(){
+        for (var key in storage){
+          var temp = storage[key];
+          storage[`${key - 1}`] = temp;
+        }
+        var max = Math.max.apply(null, Object.keys(storage).map(key => parseInt(key)))
+        delete storage[max]
+      }
+      
+    updateIndicies();
+    return delTar
   };
 
   someInstance.size = function() {
@@ -27,6 +35,9 @@ var Queue = function() {
     return count
   };
 
+  someInstance.reveal = function(){
+    console.log(storage)
+  }
+
   return someInstance;
 };
-
