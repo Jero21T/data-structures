@@ -1,8 +1,30 @@
 var Stack = function() {
-  // Hey! Rewrite in the new style. Your code will wind up looking very similar,
-  // but try not not reference your old code in writing the new style.
+  var instanceObject = {};       
+  var storage = {1: 'A'};
+  return instanceObject;
 };
 
-var stackMethods = {};
+var methods = {
+
+  push: function(value) { 
+    //console.log('hello');
+    console.log(this.storage);
+  },
+  'pop': function() {
+  },
+  'size': function() {
+  }
+};
+
+var s = Stack(methods);
+
+var extend = function(obj1, obj2) {
+  var keys = Object.keys(obj2);
+  keys.forEach(key => obj1[key] = obj2[key]);
+  return obj1;
+};
+
+        
+
 
 
