@@ -1,21 +1,23 @@
 var Stack = function() {
-  var someInstance = Object.create(Stack);
-
+  var someInstance = Object.create(Stack.prototype);
+  someInstance.storage = [];
   return someInstance;
 };
 
-var stackMethods = {
-	push: function() {
-
-	}, 
-
-	pop: function() {
-
-	}, 
-
-	size: function() {
-
-	}
+Stack.prototype.push = function (value) {
+  this.storage.push(value);
 };
+
+Stack.prototype.pop =  function () {
+  var removedValue = this.storage.pop();
+  return removedValue;
+};
+
+// 	}, 
+
+// 	size: function() {
+
+// 	}
+// };
 
 
