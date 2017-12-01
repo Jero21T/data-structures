@@ -37,7 +37,7 @@ Graph.prototype.removeNode = function(node) {
 Graph.prototype.hasEdge = function(fromNode, toNode) {
   var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
   var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
-  return this.nodes[fromNodeIndex].edges.includes(toNode) || this.nodes[toNode].edges.includes(fromNodeIndex);
+  return this.nodes[fromNodeIndex].edges.includes(toNode) || this.nodes[toNodeIndex].edges.includes(fromNode);
 };
 
 // Connects two nodes in a graph by adding an edge between them.
@@ -49,6 +49,28 @@ Graph.prototype.addEdge = function(fromNode, toNode) {
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode) {
+var fromNodeIndex = this.findIndexesByValues(fromNode,toNode)[0]
+var toNodeIndex = this.findIndexesByValues(fromNode,toNode)[1]
+
+var toNode_delete;
+var fromNode_delete;
+
+var edgesOfFromNode = this.nodes[fromNodeIndex].edges
+var edgesOfToNode = this.nodes[toNodeIndex].edges
+edgesOfFromNode.forEach(function(edge,index){
+  if (edge === toNode){
+   toNode_delete = index;
+  }
+})
+
+edgesOfToNode.forEach(function(edge,index){
+    if (edge ===fromNode){
+        fromNode_delete = index;
+    }
+})
+
+edgesOfFromNode.splice(toNode_delete,1)
+edgesOfToNode.splice(fromNode_delete,1)
 
 };
 
