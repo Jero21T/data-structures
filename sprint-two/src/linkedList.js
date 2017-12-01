@@ -1,10 +1,10 @@
-var LinkedList = function(){
+var LinkedList = function() {
   var list = {};
   list.head = null;
   list.tail = null;
 
-  list.addToTail = function(value){
-    if(!this.head){
+  list.addToTail = function(value) {
+    if (!this.head) {
       this.head = Node(value);
       this.tail = this.head;
     } else {
@@ -13,74 +13,19 @@ var LinkedList = function(){
     }
   };
 
-  list.removeHead = function(){
-    var oldHead = this.head;
-    if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      this.head = this.head.next;
-    }
-    return oldHead.value;
-  };
-
-  list.contains = function(target){
-    var node = this.head;
-    if(!node){
-      return false;
-    }
-    while(node.next) {
-      if(node.value === target) {
-        return true;
-      } else if (node.next.value === target) {
-        return true;
-      }
-      node = node.next;
-    }
-    return false;
-  };
-  return list;
-};
-
-var Node = function(value){
-  var node = {};
-  node.value = value;
-  node.next = null;
-  return node
-}
-
-/*
-// Refactored to remove redundancy and unnecessary code.
-// Needs to be tested in suite.
-
-var LinkedList = function(){
-  var list = {};
-  list.head = null;
-  list.tail = null;
-
-  list.addToTail = function(value){
-    if(!this.head){
-      this.head = Node(value);
-      this.tail = this.head;
-    } else {
-      this.tail.next = Node(value);
-      this.tail = this.tail.next;
-    }
-  };
-
-  list.removeHead = function(){
+  list.removeHead = function() {
     var oldHead = this.head;
     this.head = this.head.next;
     return oldHead.value;
   };
 
-  list.contains = function(target){
+  list.contains = function(target) {
     var node = this.head;
-    if (!node){
+    if (!node) {
       return false;
     }
     while (node.next) {
-      if (node.value === target) {
+      if (node.value === target || node.next.value === target) {
         return true;
       } 
       node = node.next;
@@ -90,21 +35,9 @@ var LinkedList = function(){
   return list;
 };
 
-var Node = function(value){
+var Node = function(value) {
   var node = {};
   node.value = value;
   node.next = null;
-  return node
-}
-
-var l = LinkedList();
-l.addToTail("1");
-l.addToTail("2");
-l.addToTail("3");
-l.addToTail("4");
-console.log(l);
-console.log(`Contains 3? ${l.contains("3")}`);
-l.removeHead();
-console.log(l);
-
-*/
+  return node;
+};
