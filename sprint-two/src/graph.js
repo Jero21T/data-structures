@@ -35,22 +35,29 @@ Graph.prototype.removeNode = function(node) {
 
 // Returns a boolean indicating whether two specified nodes are connected.  Pass in the values contained in each of the two nodes.
 Graph.prototype.hasEdge = function(fromNode, toNode) {
-  var fromNodeIndex, toNodeIndex;
-  this.nodes.forEach(function(node, index){
-    if (node.value === fromNode) {
-      fromNodeIndex = index;
-    }
-    if (node.value === toNode) {
-      toNodeIndex = index;
-    }
-  });
+  var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
+  var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
   return this.nodes[fromNodeIndex].edges.includes(toNode) || this.nodes[toNode].edges.includes(fromNodeIndex);
 };
 
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
+  var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
+  var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
+  this.nodes[fromNodeIndex].edges.push(toNode);
+  this.nodes[toNodeIndex].edges.push(fromNode);
+};
+
+Graph.prototype.removeEdge = function(fromNode, toNode) {
+
+};
+
+Graph.prototype.forEachNode = function(cb) {
+};
+
+Graph.prototype.findIndexesByValues = function(fromNode, toNode) {
   var fromNodeIndex, toNodeIndex;
-  this.nodes.forEach(function(node, index){
+  this.nodes.forEach(function(node, index) {
     if (node.value === fromNode) {
       fromNodeIndex = index;
     }
@@ -58,14 +65,5 @@ Graph.prototype.addEdge = function(fromNode, toNode) {
       toNodeIndex = index;
     }
   });
-  this.nodes[fromNodeIndex].edges.push(toNode);
-  this.nodes[toNodeIndex].edges.push(fromNode)
-};
-
-// Remove an edge between any two specified (by value) nodes.
-Graph.prototype.removeEdge = function(fromNode, toNode) {
-};
-
-// Pass in a callback which will be executed on each node of the graph.
-Graph.prototype.forEachNode = function(cb) {
+  return [fromNodeIndex, toNodeIndex];
 };
