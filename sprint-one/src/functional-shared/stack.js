@@ -1,5 +1,5 @@
 var extend = function(obj1, obj2) {
-  for (var key in obj2){
+  for (var key in obj2) {
     obj1[key] = obj2[key];
   }
   return obj1;
@@ -7,21 +7,23 @@ var extend = function(obj1, obj2) {
 
 var Stack = function() {
   var instanceObject = {};       
-  var storage = [];
-  extend(instanceObject, methods)
+  instanceObject.storage = [];
+  extend(instanceObject, methods);
   return instanceObject;
 };
 
-var methods = {};
-methods.push = function(value) { 
+var methods = {
+  push: function(value) { 
     this.storage.push(value);
-  }
-methods.pop = function() {
+  },
+  pop: function() {
     var target = this.storage.pop();
-    return target
-  }
-methods.size = function() {
+    return target;
+  },
+  size: function() {
     return this.storage.length;
   }
+};
+
 
         
