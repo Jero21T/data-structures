@@ -17,21 +17,19 @@ treeMethods.addChild = function(value) {
 };
 
 treeMethods.contains = function(target) {
-  var node = this;
-  if (node.value === target) {
-    return true;
-  } else {
-    var nodes = node.children;
-    if (nodes) {
-      nodes.forEach(function(child) {
-        if (child.value === target) {
-          return true;
-        } 
+  var result;
+
+  var checkNode = function(node) {
+    if (node.value === target) {
+      result = true;
+    }
+    if (node.children.length) {
+      node.children.forEach(function(child) {
+        checkNode(child); 
       });
     }
-  }
+  };
+  var node = this;
+  checkNode(node);
+  return result ? true : false;
 };
-
-/*
- * Complexity: What is the time complexity of the above functions?
- */
