@@ -15,9 +15,10 @@ BinarySearchTree.prototype.contains = function(target) {
   
   var topNode = this;
 
-  var checkNode = function(node) {
+  var checkNode = function(node) {  
     if (node.value === target) {
       result = true;
+      return
     };
 
     if (node.value > target) {
@@ -38,7 +39,7 @@ BinarySearchTree.prototype.contains = function(target) {
         }
     }
  };
-
+ 
  checkNode(topNode);
  return result ? true : false;
 };
