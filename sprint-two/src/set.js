@@ -15,15 +15,13 @@ setPrototype.contains = function(item) {
 };
 
 setPrototype.remove = function(item) {
-var targetIndex;
+  var targetIndex;
   this._storage.forEach(function(element, index) {
-    if (item === element){
+    if (item === element) {
       targetIndex = index;
     }
   });
   this._storage.splice(targetIndex, 1);
 };
 
-/*
- * Complexity: What is the time complexity of the above functions?
- */
+
