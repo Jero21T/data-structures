@@ -1,10 +1,9 @@
 var Tree = function(value, parent) {
-  var newTree = Object.create(treeMethods);
+  var newTree = {};
   newTree.value = value;
   newTree.parent = parent || null;
-
   newTree.children = []; 
-
+  extend(newTree, treeMethods);
   return newTree;
 };
 
@@ -12,8 +11,8 @@ var treeMethods = {};
 
 treeMethods.addChild = function(value) {
   var parent = this;
-  var t = Tree(value, parent);
-  this.children.push(t);
+  var child = Tree(value, parent);
+  this.children.push(child);
 };
 
 treeMethods.contains = function(target) {
@@ -29,7 +28,16 @@ treeMethods.contains = function(target) {
       });
     }
   };
+
   var node = this;
   checkNode(node);
+  
   return result ? true : false;
+};
+
+var extend = function(obj, methods) {
+  for (var key in methods) {
+    obj[key] = methods[key];
+  }
+  return obj;
 };
