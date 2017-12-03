@@ -10,29 +10,21 @@ var BinarySearchTree = function(value) {
 BinarySearchTree.prototype.insert = function(value) {
   var newNode = BinarySearchTree(value);
   var current = this;
-  
+
   if (newNode.value < current.value) {
-    if (!current.left) {
-      current.left = newNode;
-    } else {
-      current.left.insert(value);
-    }
+    !current.left ? current.left = newNode : current.left.insert(value);
   }
   if (newNode.value > current.value) {
-    if (!current.right) {
-      current.right = newNode;
-    } else {
-      current.right.insert(value);
-    }
+    !current.right ? current.right = newNode : current.right.insert(value);
   }
-  
+
 };
 
 BinarySearchTree.prototype.contains = function(target) {
-  var result;   
+  var result; 
   var topNode = this;
+
   var checkNode = function(node) {  
-  
     if (node.value === target) {
       return true;
     }
@@ -48,30 +40,32 @@ BinarySearchTree.prototype.contains = function(target) {
     }
     return false;
   };
-
-  return checkNode(topNode);
+ 
+  return checkNode(topNode); 
 };
 
-
-
-
 BinarySearchTree.prototype.depthFirstLog = function (callback) {
-  var vals = [];
-  var node = this;
-  vals.push(this.value);
-  var getVals = function() {
-    if (this.left) {
-      this.left.getVals();
+  var usedVals = [];
+  callback(this.value);
+
+  var getVals = function(node) {
+    if (node.left) {
+      getVals(node.left);
     } else {
-      vals.push(this.val);
+      if (!usedVals.includes(node.value)) {
+        usedVals.push(node.value);
+        callback(node.value);
+      }
     }
-    if (this.right) {
-      this.right.getVals();
+    if (node.right) {
+      getVals(node.right);
     } else {
-      vals.push(this.val);
+      if (!usedVals.includes(node.value)) {
+        usedVals.push(node.value);
+        callback(node.value);
+      }
     }
-    
   };
-  getVals(node);
-  console.log(vals);
+
+  getVals(this);
 };
