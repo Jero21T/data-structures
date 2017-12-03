@@ -2,7 +2,6 @@ var Graph = function() {
   this.nodes = [];
 };
 
-// Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
   var newNode = {};
   newNode.value = node;
@@ -11,7 +10,6 @@ Graph.prototype.addNode = function(node) {
   this.nodes.push(newNode);
 };
 
-// Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
   var found = false;
   this.nodes.forEach(function(n) { 
@@ -22,26 +20,40 @@ Graph.prototype.contains = function(node) {
   return found;
 };
 
-// Removes a node from the graph.
-Graph.prototype.removeNode = function(node) {
+Graph.prototype.removeNode = function(nodeVal) {
   var targetIndex;
-  this.nodes.forEach(function(n, index) {
-    if (n.value === node) {
+  this.nodes.forEach(function(node, index) {
+    if (node.value === nodeVal) {
       targetIndex = index;
     }
+    node.edges.forEach(function(edge, edgeIndex) {
+      if (edge === nodeVal) {
+        node.edges.splice(edgeIndex, 1);
+      }
+    });
   });
+ 
   this.nodes.splice(targetIndex, 1);
 };
 
-// Returns a boolean indicating whether two specified nodes are connected.  Pass in the values contained in each of the two nodes.
 Graph.prototype.hasEdge = function(fromNode, toNode) {
   var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
   var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
+
+  if (fromNodeIndex === undefined || toNodeIndex === undefined) {
+    return false; 
+  }
+ 
   return this.nodes[fromNodeIndex].edges.includes(toNode) || this.nodes[toNodeIndex].edges.includes(fromNode);
 };
 
-// Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
+  if (typeof fromNode === 'object') {
+    fromNode = fromNode.value;
+  } 
+  if (typeof toNode === 'object') {
+    toNode = toNode.value;
+  }
   var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
   var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
   this.nodes[fromNodeIndex].edges.push(toNode);
@@ -49,32 +61,34 @@ Graph.prototype.addEdge = function(fromNode, toNode) {
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode) {
-var fromNodeIndex = this.findIndexesByValues(fromNode,toNode)[0]
-var toNodeIndex = this.findIndexesByValues(fromNode,toNode)[1]
+  var fromNodeIndex = this.findIndexesByValues(fromNode, toNode)[0];
+  var toNodeIndex = this.findIndexesByValues(fromNode, toNode)[1];
 
-var toNode_delete;
-var fromNode_delete;
+  var toNodeDelete, fromNodeDelete;
 
-var edgesOfFromNode = this.nodes[fromNodeIndex].edges
-var edgesOfToNode = this.nodes[toNodeIndex].edges
-edgesOfFromNode.forEach(function(edge,index){
-  if (edge === toNode){
-   toNode_delete = index;
-  }
-})
-
-edgesOfToNode.forEach(function(edge,index){
-    if (edge ===fromNode){
-        fromNode_delete = index;
+  var edgesOfFromNode = this.nodes[fromNodeIndex].edges;
+  var edgesOfToNode = this.nodes[toNodeIndex].edges;
+  edgesOfFromNode.forEach(function(edge, index) {
+    if (edge === toNode) {
+      toNodeDelete = index;
     }
-})
+  });
 
-edgesOfFromNode.splice(toNode_delete,1)
-edgesOfToNode.splice(fromNode_delete,1)
+  edgesOfToNode.forEach(function(edge, index) {
+    if (edge === fromNode) {
+      fromNodeDelete = index;
+    }
+  });
+
+  edgesOfFromNode.splice(toNodeDelete, 1);
+  edgesOfToNode.splice(fromNodeDelete, 1);
 
 };
 
 Graph.prototype.forEachNode = function(cb) {
+  this.nodes.forEach(function(node) {
+    cb(node);
+  }); 
 };
 
 Graph.prototype.findIndexesByValues = function(fromNode, toNode) {
